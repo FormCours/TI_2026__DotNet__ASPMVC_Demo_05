@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Éléments de solution/">
+    <File Path="readme.md" />
+  </Folder>
+  <Project Path="Demo_ASPMVC_05__Auth.BLL/Demo_ASPMVC_05__Auth.BLL.csproj" />
+  <Project Path="Demo_ASPMVC_05__Auth.WebApp/Demo_ASPMVC_05__Auth.WebApp.csproj" />
+</Solution>
