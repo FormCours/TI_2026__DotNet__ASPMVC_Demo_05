@@ -3,6 +3,7 @@ using Demo_ASPMVC_05__Auth.BLL.Models;
 using Demo_ASPMVC_05__Auth.WebApp.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -16,6 +17,7 @@ namespace Demo_ASPMVC_05__Auth.WebApp.Controllers
         {
             this.authService = authService;
         }
+
 
         public IActionResult Login()
         {
@@ -60,6 +62,7 @@ namespace Demo_ASPMVC_05__Auth.WebApp.Controllers
             return View();
         }
 
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {           
             // SignOut

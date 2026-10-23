@@ -1,9 +1,11 @@
 using Demo_ASPMVC_05__Auth.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Demo_ASPMVC_05__Auth.WebApp.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         public IActionResult Index()
