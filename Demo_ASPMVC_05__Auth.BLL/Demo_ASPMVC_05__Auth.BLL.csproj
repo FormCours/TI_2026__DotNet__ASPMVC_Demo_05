@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Soenneker.Hashing.Argon2" Version="4.0.882" />
+  </ItemGroup>
+
 </Project>
