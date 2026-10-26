@@ -41,17 +41,7 @@ namespace Demo_ASPMVC_05__Auth.WebApp.Controllers
             }
 
             // Authentification de l'utilisateur
-            List<Claim> claims = [
-                new Claim(ClaimTypes.NameIdentifier, member.Id.ToString()),
-                new Claim(ClaimTypes.Role, member.Role),
-            ];
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            // SignIn
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(identity)
-            );
+            await CreateMemberSessionAsync(member);
 
             // Redirection de l'utilisateur
             return RedirectToAction("Index", "Home");
@@ -76,7 +66,49 @@ namespace Demo_ASPMVC_05__Auth.WebApp.Controllers
 
         public IActionResult Register()
         {
-            throw new NotImplementedException();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(MemberRegisterForm data)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            MemberModel memberToRegister = new MemberModel
+            {
+                Email = data.Email,
+                Role = "User"
+            };
+            MemberModel? member = authService.Register(memberToRegister, data.Pwd);
+            if(member is null)
+            {
+                // TODO Prévoir une redirection ou un message si le compte existe déjà
+                ModelState.AddModelError(string.Empty, "Une erreur s'est produite !");
+                return View();
+            }
+
+            await CreateMemberSessionAsync(member);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        private async Task CreateMemberSessionAsync(MemberModel member)
+        {
+            // Authentification de l'utilisateur
+            List<Claim> claims = [
+                new Claim(ClaimTypes.NameIdentifier, member.Id.ToString()),
+                new Claim(ClaimTypes.Role, member.Role),
+            ];
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // SignIn
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identity)
+            );
         }
     }
 }
