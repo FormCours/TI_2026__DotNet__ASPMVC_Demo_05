@@ -12,10 +12,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-builder.Services.AddSingleton<PasswordHasher.Config>(_ =>
+builder.Services.AddScoped<IHasherHelper, HasherHelper>();
+builder.Services.AddSingleton<HasherHelper.Config>(_ =>
 {
-    return new PasswordHasher.Config()
+    return new HasherHelper.Config()
     {
         // https://learn.microsoft.com/fr-fr/dotnet/core/extensions/configuration
         Pepper = builder.Configuration["PwdHash:Pepper"] ?? " 😱 Backup Papper 😱"
