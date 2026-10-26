@@ -11,7 +11,17 @@ builder.Services.AddControllersWithViews();
 // Configuration des services
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddSingleton<PasswordHasher.Config>(_ =>
+{
+    return new PasswordHasher.Config()
+    {
+        // https://learn.microsoft.com/fr-fr/dotnet/core/extensions/configuration
+        Pepper = builder.Configuration["PwdHash:Pepper"] ?? " 😱 Backup Papper 😱"
+    };
+});
+
 
 // Configuration de l'authentification
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -48,3 +58,5 @@ app.MapControllerRoute(
 
 
 app.Run();
+
+

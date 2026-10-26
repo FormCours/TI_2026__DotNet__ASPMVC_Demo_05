@@ -5,14 +5,27 @@ namespace Demo_ASPMVC_05__Auth.BLL.Helpers
 {
     public class PasswordHasher : IPasswordHasher
     {
+        public class Config
+        {
+            public required string Pepper { get; set; }
+        }
+
+
+        private readonly Config _Config;
+        public PasswordHasher(Config config)
+        {
+            _Config = config;
+        }
+
+
         public string Hash(string password)
         {
-            return Argon2HashingUtil.Hash(password).Result;
+            return Argon2HashingUtil.Hash(password + _Config.Pepper).Result;
         }
 
         public bool Verify(string passwordHash, string password)
         {
-            return Argon2HashingUtil.Verify(password, passwordHash).Result;
+            return Argon2HashingUtil.Verify(password + _Config.Pepper, passwordHash).Result;
         }
     }
 }
