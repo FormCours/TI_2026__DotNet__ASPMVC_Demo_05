@@ -3,7 +3,7 @@ using Soenneker.Hashing.Argon2;
 
 namespace Demo_ASPMVC_05__Auth.BLL.Helpers
 {
-    public class PasswordHasher : IPasswordHasher
+    public class HasherHelper : IHasherHelper
     {
         public class Config
         {
@@ -12,7 +12,7 @@ namespace Demo_ASPMVC_05__Auth.BLL.Helpers
 
 
         private readonly Config _Config;
-        public PasswordHasher(Config config)
+        public HasherHelper(Config config)
         {
             _Config = config;
         }

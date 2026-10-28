@@ -16,10 +16,10 @@ namespace Demo_ASPMVC_05__Auth.BLL.Services
         private static int _NextId = 3;
         #endregion
 
-        private IPasswordHasher passwordHasherService;
-        public AuthService(IPasswordHasher passwordHasherService)
+        private IHasherHelper _hasher;
+        public AuthService(IHasherHelper hasher)
         {
-            this.passwordHasherService = passwordHasherService;
+            _hasher = hasher;
         }
 
         public MemberModel? Login(string email, string password)
@@ -27,7 +27,7 @@ namespace Demo_ASPMVC_05__Auth.BLL.Services
             MemberModel? member = _Members.SingleOrDefault(m => m.Email == email);
             if (member is null) return null;
 
-            bool passwordCheck = passwordHasherService.Verify(member.PasswordHash!, password);
+            bool passwordCheck = _hasher.Verify(member.PasswordHash!, password);
             if (!passwordCheck) return null;
 
             // Remark : Cas réel - Ne pas réenvoyer le mot de passe haché !
@@ -40,7 +40,7 @@ namespace Demo_ASPMVC_05__Auth.BLL.Services
             if (memberAlreadyExists is not null) return null;
 
             data.Id = _NextId++;
-            data.PasswordHash = passwordHasherService.Hash(password);
+            data.PasswordHash = _hasher.Hash(password);
             _Members.Add(data);
 
             // Remark : Cas réel - Ne pas réenvoyer le mot de passe haché !
